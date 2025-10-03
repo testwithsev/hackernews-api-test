@@ -1,6 +1,7 @@
 from locust import HttpUser, task, between
 import os
 import random
+import json
 
 
 class HNUser(HttpUser):
@@ -14,11 +15,13 @@ class HNUser(HttpUser):
     @task(1)
     def item(self):
         resp = self.client.get("/topstories.json", name="/topstories.json (seed)")
-        if resp.ok:
-            try:
-                ids = resp.json()
-                if ids:
-                    sid = random.choice(ids[:100])
-                    self.client.get(f"/item/{sid}.json", name="/item/{id}.json")
-            except Exception:
-                pass
+        if not resp.ok:
+            return
+        try:
+            ids = resp.json()
+        except (ValueError, json.JSONDecodeError):
+            return
+
+        if isinstance(ids, list) and ids:
+            sid = random.choice(ids[:100])
+            self.client.get(f"/item/{sid}.json", name="/item/{id}.json")
