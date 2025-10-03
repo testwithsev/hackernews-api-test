@@ -1,7 +1,4 @@
 import pytest
-from jsonschema import validate
-from hackernews import schemas
-from jsonschema import ValidationError
 
 
 @pytest.mark.positive
@@ -34,6 +31,3 @@ def test_fetch_nonexistent_child_comment_returns_none_or_skip(client):
         assert client.item(probe) is None
         return
     pytest.skip("No story with kids available to probe")
-
-
-
