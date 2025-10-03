@@ -1,0 +1,19 @@
+services:
+  tests:
+    build: .
+    environment:
+      - HACKERNEWS_BASE_URL=https://hacker-news.firebaseio.com/v0
+  locust-master:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./perf:/mnt/locust
+    working_dir: /mnt/locust
+    command: -f locustfile.py --master
+  locust-worker:
+    image: locustio/locust
+    volumes:
+      - ./perf:/mnt/locust
+    working_dir: /mnt/locust
+    command: -f locustfile.py --worker --master-host=locust-master

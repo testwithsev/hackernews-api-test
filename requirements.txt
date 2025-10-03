@@ -1,0 +1,6 @@
+pytest
+requests
+jsonschema
+locust
+allure-pytest
+pytest-html
