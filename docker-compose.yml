@@ -1,18 +1,41 @@
+version: "3.9"
+
 services:
   tests:
     build: .
+    working_dir: /app
     environment:
       - HACKERNEWS_BASE_URL=https://hacker-news.firebaseio.com/v0
+    volumes:
+      - ./out:/app/out
+    command: >
+      pytest -q
+      --alluredir=/app/out/allure-results
+      --html=/app/out/pytest_report.html
+      --self-contained-html
+
   locust-master:
     image: locustio/locust
+    environment:
+      - HACKERNEWS_BASE_URL=https://hacker-news.firebaseio.com/v0
     ports:
       - "8089:8089"
     volumes:
       - ./perf:/mnt/locust
+      - ./out/perf:/mnt/perf
     working_dir: /mnt/locust
-    command: -f locustfile.py --master
+    command: >
+      -f locustfile.py
+      --master
+      --csv=/mnt/perf/stats
+      --html /mnt/perf/report.html
+
   locust-worker:
     image: locustio/locust
+    environment:
+      - HACKERNEWS_BASE_URL=https://hacker-news.firebaseio.com/v0
+    depends_on:
+      - locust-master
     volumes:
       - ./perf:/mnt/locust
     working_dir: /mnt/locust
