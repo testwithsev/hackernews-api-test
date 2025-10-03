@@ -25,6 +25,11 @@ pip install -r requirements.txt
 pytest -q \  --alluredir=allure-results \  --html=pytest_report.html --self-contained-html
 ```
 
+
+## Markers
+- `@pytest.mark.positive`
+- `@pytest.mark.negative`
+
 Useful subsets:
 ```bash
 pytest -m positive -q
@@ -94,15 +99,4 @@ On each push/PR, `.github/workflows/ci.yml` runs:
 
 ---
 
-## Markers
-- `@pytest.mark.positive`
-- `@pytest.mark.negative`
-
-Examples:
-```bash
-pytest -m "functional and positive" -q
-pytest -m "nonfunctional and negative" -q
-```
-
----
 
