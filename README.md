@@ -22,7 +22,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 
 # Run tests with reports
-pytest -q \  --alluredir=allure-results \  --html=pytest_report.html --self-contained-html
+pytest -q --alluredir=allure-results --html=pytest_report.html --self-contained-html
 ```
 
 
