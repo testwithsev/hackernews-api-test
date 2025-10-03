@@ -1,4 +1,3 @@
-# JSON Schemas for HN items. Keep them permissive due to live data variability.
 common_item_schema = {
     "type": "object",
     "required": ["id", "type", "time"],
@@ -6,7 +5,7 @@ common_item_schema = {
         "id": {"type": "integer"},
         "type": {"type": "string", "enum": ["story", "comment", "job", "poll", "pollopt"]},
         "by": {"type": "string"},
-        "time": {"type": "integer"},  # Unix seconds
+        "time": {"type": "integer"},
         "text": {"type": "string"},
         "title": {"type": "string"},
         "url": {"type": "string"},
@@ -75,4 +74,17 @@ pollopt_schema = {
         common_item_schema,
         {"type": "object", "properties": {"type": {"const": "pollopt"}, "poll": {"type": "integer"}}}
     ]
+}
+
+user_schema = {
+    "type": "object",
+    "required": ["id", "created", "karma"],
+    "additionalProperties": True,
+    "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "created": {"type": "integer", "minimum": 0},
+        "karma": {"type": "integer"},
+        "about": {"type": "string"},
+        "submitted": {"type": "array", "items": {"type": "integer"}},
+    },
 }
