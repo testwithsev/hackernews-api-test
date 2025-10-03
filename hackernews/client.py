@@ -47,12 +47,11 @@ class HackerNewsClient:
         resp.raise_for_status()
         return resp.json()
 
-    # ---- list endpoints: ensure list shape only; no element validation/coercion
     def top_stories(self) -> List[Any]:
         data = self._get_json("/topstories.json")
         if not isinstance(data, list):
             raise TypeError(f"topstories returned non-list payload: {type(data).__name__}")
-        return data  # may contain non-ints; tests will assert element types
+        return data
 
     def new_stories(self) -> List[Any]:
         data = self._get_json("/newstories.json")
@@ -66,7 +65,6 @@ class HackerNewsClient:
             raise TypeError(f"beststories returned non-list payload: {type(data).__name__}")
         return data
 
-    # ---- item endpoint: return dict or None; no field coercion
     def item(self, id: int) -> Optional[Dict[str, Any]]:
         resp = self.http.get(self._url(f"/item/{int(id)}.json"))
         resp.raise_for_status()
@@ -79,3 +77,31 @@ class HackerNewsClient:
     def first_comment_ids(self, story: Dict[str, Any]) -> List[Any]:
         kids = story.get("kids") or []
         return kids if isinstance(kids, list) else []
+
+    def ask_stories(self):
+        data = self._get_json("/askstories.json")
+        if not isinstance(data, list):
+            raise TypeError(f"askstories returned non-list payload: {type(data).__name__}")
+        return data
+
+    def show_stories(self):
+        data = self._get_json("/showstories.json")
+        if not isinstance(data, list):
+            raise TypeError(f"showstories returned non-list payload: {type(data).__name__}")
+        return data
+
+    def job_stories(self):
+
+        data = self._get_json("/jobstories.json")
+        if not isinstance(data, list):
+            raise TypeError(f"jobstories returned non-list payload: {type(data).__name__}")
+        return data
+
+    def max_item(self) -> int:
+        return self._get_json("/maxitem.json")
+
+    def updates(self) -> dict:
+        return self._get_json("/updates.json") or {}
+
+    def user(self, username: str):
+        return self._get_json(f"/user/{username}.json")
