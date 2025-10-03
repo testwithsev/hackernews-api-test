@@ -1,0 +1,39 @@
+# --- OS / Editors ---
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+pip-wheel-metadata/
+.python-version
+
+# --- Test runners / reports ---
+.pytest_cache/
+.allure/
+allure-results/
+htmlcov/
+.coverage
+.coverage.*
+pytest_report.html
+
+# --- Project artifacts ---
+out/
+
+# --- Performance run outputs ---
+perf/*.csv
+perf/report.html
+perf/stats_*.csv
+
+# --- Docker ---
+**/.docker-build/
